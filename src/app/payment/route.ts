@@ -27,6 +27,5 @@ export const POST = async (req: NextRequest) => {
   };
 
   const result = await clientSup.from("donations").insert(donation)
-  console.log("body", result)
   return Response.json({ success: true })
 }

@@ -4,7 +4,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { SupabaseClient } from "@/lib/supabase";
 import { Form } from "./components/Form";
-interface Donation {
+export interface Donation {
   id: number;
   created_at: string;
   amount: number;
@@ -37,13 +37,13 @@ const Home = async () => {
               {donations?.map((donation) => {
                 return (
                   <TableRow key={donation.id}>
-                    <TableCell className="font-bold dark:text-white">
+                    <TableCell className="font-bold">
                       {donation.amount.toLocaleString("es-PE", {
                         style: "currency",
                         currency: "PEN",
                       })}
                     </TableCell>
-                    <TableCell className="text-right dark:text-white">{donation.message}</TableCell>
+                    <TableCell className="text-right">{donation.message}</TableCell>
                   </TableRow>
                 );
               })}
