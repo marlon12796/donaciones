@@ -7,6 +7,10 @@ import { redirect } from "next/navigation"
 export const donate = async (formData: FormData) => {
   const preference = await new Preference(client).create({
     body: {
+      auto_return: "approved",
+      back_urls: {
+        success: `${process.env.VERCEL_URL}/thank-you`,
+      },
       items: [{
         id: "donacion",
         title: formData.get("message") as string,
@@ -15,5 +19,6 @@ export const donate = async (formData: FormData) => {
       }]
     }
   })
-  redirect(preference?.sandbox_init_point ?? "")
+  const runtimeConfig = process.env.NODE_ENV === "production" ? preference.init_point : preference.sandbox_init_point
+  redirect(runtimeConfig ?? "")
 }
