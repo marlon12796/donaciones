@@ -1,3 +1,4 @@
+import { SupabaseClient } from "@/lib/supabase";
 import { Payment } from "mercadopago";
 import { NextRequest } from "next/server";
 import { client } from "../config";
@@ -13,6 +14,7 @@ interface PaymentUpdateBody {
   type: string;
   user_id: number;
 }
+const clientSup = SupabaseClient()
 export const POST = async (req: NextRequest) => {
   const body: PaymentUpdateBody = await req.json()
   const payment = await new Payment(client).get({ id: body.data.id })
@@ -24,7 +26,7 @@ export const POST = async (req: NextRequest) => {
     message: payment.description,
   };
 
-
-  console.log("body", payment)
+  const result = await clientSup.from("donations").insert(donation)
+  console.log("body", result)
   return Response.json({ success: true })
 }
