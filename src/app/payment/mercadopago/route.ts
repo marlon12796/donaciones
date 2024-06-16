@@ -1,8 +1,8 @@
 import { SupabaseClient } from '@/lib/supabase'
 import { Payment } from 'mercadopago'
 import type { NextRequest, NextResponse } from 'next/server'
-import { client } from '../utils/config'
 import crypto from 'crypto'
+import { client } from '@/app/utils/config'
 interface PaymentUpdateBody {
   action: string
   api_version: string
@@ -18,6 +18,7 @@ interface PaymentUpdateBody {
 export const POST = async (req: NextRequest, _res: NextResponse) => {
   const clientSup = SupabaseClient()
   const body: PaymentUpdateBody = await req.json()
+
   if (!body) return Response.json({ error: 'Missing Body' }, { status: 400 })
   const signature = req.headers.get('x-signature')
   const requestId = req.headers.get('x-request-id')
